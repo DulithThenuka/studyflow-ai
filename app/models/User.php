@@ -51,17 +51,33 @@ class User
         return $this->db->single();
     }
 
-    public function updateUser($data)
+    public function updateProfile($data)
     {
         $this->db->query("
             UPDATE users
-            SET name = :name, email = :email
+            SET name = :name,
+                email = :email,
+                university = :university,
+                course = :course,
+                profile_image = :profile_image
             WHERE id = :id
         ");
 
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
+        $this->db->bind(':university', $data['university']);
+        $this->db->bind(':course', $data['course']);
+        $this->db->bind(':profile_image', $data['profile_image']);
         $this->db->bind(':id', $data['id']);
+
+        return $this->db->execute();
+    }
+
+    public function updatePassword($id, $hashedPassword)
+    {
+        $this->db->query('UPDATE users SET password = :password WHERE id = :id');
+        $this->db->bind(':password', $hashedPassword);
+        $this->db->bind(':id', $id);
 
         return $this->db->execute();
     }
