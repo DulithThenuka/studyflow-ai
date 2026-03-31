@@ -462,4 +462,27 @@ class Task
 
         return $task;
     }
+        public function getRecommendedTasksByAvailableTime($userId, $availableHours)
+    {
+        $this->db->query("
+            SELECT t.*, s.subject_name, s.color
+            FROM tasks t
+            INNER JOIN subjects s ON t.subject_id = s.id
+            WHERE t.user_id = :user_id
+              AND t.status != 'Completed'
+              AND t.estimated_hours <= :available_hours
+            ORDER BY t.score DESC, t.deadline IS NULL, t.deadline ASC
+            LIMIT 10
+        ");
+        $this->db->bind(':user_id', $userId);
+        $this->db->bind(':available_hours', $availableHours);
+
+        $tasks = $this->db->resultSet();
+
+        foreach ($tasks as $task) {
+            $task->recommendation_note = $this->buildRecommendationNote($task);
+        }
+
+        return $tasks;
+    }
 }

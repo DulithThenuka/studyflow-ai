@@ -5,15 +5,24 @@
         <?php require APPROOT . '/views/inc/sidebar.php'; ?>
 
         <main class="dashboard-main">
+            <div class="command-bar">
+                <form action="<?php echo URLROOT; ?>/planner" method="GET" class="planner-filter-form">
+                    <div class="command-search">
+                        <span class="command-icon">⏳</span>
+                        <input type="number" step="0.5" min="0.5" name="hours" placeholder="Enter available study hours" value="<?php echo $data['availableHours'] > 0 ? htmlspecialchars($data['availableHours']) : ''; ?>">
+                    </div>
+                    <div class="command-actions">
+                        <button type="submit" class="btn btn-primary">Filter Tasks</button>
+                        <a href="<?php echo URLROOT; ?>/planner" class="btn btn-outline">Reset</a>
+                    </div>
+                </form>
+            </div>
+
             <div class="dashboard-topbar">
                 <div>
                     <span class="section-label">Smart Planner</span>
                     <h1>Your AI Study Recommendations</h1>
-                    <p>StudyFlow AI ranks your tasks using deadline, priority, difficulty, and workload.</p>
-                </div>
-
-                <div class="topbar-actions">
-                    <a href="<?php echo URLROOT; ?>/tasks/add" class="btn btn-primary">Add Task</a>
+                    <p>StudyFlow AI ranks tasks using deadline, priority, difficulty, workload, and available time.</p>
                 </div>
             </div>
 
@@ -21,6 +30,22 @@
                 <div class="planner-warning">
                     <strong>Burnout Warning:</strong>
                     <span><?php echo htmlspecialchars($data['burnoutWarning']); ?></span>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($data['bestTaskForToday'])) : ?>
+                <div class="dashboard-alert-card best-task-card" style="margin-bottom: 20px;">
+                    <div class="card-head">
+                        <h3>Best Task for Today</h3>
+                        <span>🧠</span>
+                    </div>
+                    <h4><?php echo htmlspecialchars($data['bestTaskForToday']->title); ?></h4>
+                    <p>
+                        <?php echo htmlspecialchars($data['bestTaskForToday']->subject_name); ?> •
+                        <?php echo htmlspecialchars($data['bestTaskForToday']->priority); ?> Priority •
+                        <?php echo htmlspecialchars($data['bestTaskForToday']->estimated_hours); ?> hrs
+                    </p>
+                    <small><?php echo htmlspecialchars($data['bestTaskForToday']->recommendation_note); ?></small>
                 </div>
             <?php endif; ?>
 
@@ -109,11 +134,11 @@
                         <?php endforeach; ?>
                     </div>
                 <?php else : ?>
-                    <div class="empty-state">
-                        <p>No active tasks yet. Add tasks first and StudyFlow AI will recommend what to study first.</p>
-                        <div style="margin-top: 16px;">
-                            <a href="<?php echo URLROOT; ?>/tasks/add" class="btn btn-primary">Create First Task</a>
-                        </div>
+                    <div class="premium-empty-state">
+                        <div class="empty-illustration">🧠</div>
+                        <h4>No matching tasks found</h4>
+                        <p>Try increasing available study hours or add more active tasks to get recommendations.</p>
+                        <a href="<?php echo URLROOT; ?>/tasks/add" class="btn btn-primary">Create Task</a>
                     </div>
                 <?php endif; ?>
             </div>

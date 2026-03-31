@@ -223,6 +223,13 @@ foreach ($daysMap as $date => $minutes) {
                     <canvas id="subjectProgressChart"></canvas>
                 </div>
             </div>
+            <div class="dash-card chart-card">
+    <div class="card-head">
+        <h3>Task Completion Ratio</h3>
+        <span>🍩</span>
+    </div>
+    <canvas id="completionDonutChart"></canvas>
+</div>
 
             <div class="dashboard-grid two-large">
                 <div class="dash-card">
@@ -302,6 +309,8 @@ const weeklyFocusLabels = <?php echo json_encode($weekLabels); ?>;
 const weeklyFocusData = <?php echo json_encode($weekMinutes); ?>;
 const subjectProgressLabels = <?php echo json_encode($subjectLabels); ?>;
 const subjectProgressData = <?php echo json_encode($subjectCompleted); ?>;
+const completedTasks = <?php echo (int)$data['completedTasks']; ?>;
+const pendingTasks = <?php echo (int)$data['pendingTasks']; ?>;
 
 document.addEventListener('DOMContentLoaded', function () {
     const focusCtx = document.getElementById('weeklyFocusChart');
@@ -344,6 +353,27 @@ document.addEventListener('DOMContentLoaded', function () {
                 plugins: {
                     legend: { display: false }
                 }
+            }
+        });
+    }
+
+    const donutCanvas = document.getElementById('completionDonutChart');
+    if (donutCanvas) {
+        new Chart(donutCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: ['Completed', 'Pending'],
+                datasets: [{
+                    data: [completedTasks, pendingTasks],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                },
+                cutout: '68%'
             }
         });
     }

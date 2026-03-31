@@ -2431,3 +2431,19 @@ textarea {
         grid-template-columns: 1fr;
     }
 }
+.planner-filter-form {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.planner-filter-form .command-search {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .planner-filter-form {
+        flex-direction: column;
+    }
+}
