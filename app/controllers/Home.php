@@ -13,16 +13,28 @@ class Home extends Controller
 
     public function about()
     {
-        echo 'About Page';
+        $data = [
+            'title' => 'About StudyFlow AI'
+        ];
+
+        $this->view('home/about', $data);
     }
 
     public function features()
     {
-        echo 'Features Page';
+        $data = [
+            'title' => 'Features'
+        ];
+
+        $this->view('home/features', $data);
     }
 
     public function contact()
     {
-        echo 'Contact Page';
+        $data = [
+            'title' => 'Contact'
+        ];
+
+        $this->view('home/contact', $data);
     }
 }

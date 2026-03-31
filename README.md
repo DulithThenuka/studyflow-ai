@@ -1,66 +1,77 @@
-# studyflow-ai# 🎓 StudyFlow AI – Smart Study Planner Web App
+# 📘 StudyFlow AI
 
-StudyFlow AI is a full-stack PHP MVC web application designed to help students plan, prioritize, and manage their study tasks efficiently using a smart scoring system.
+StudyFlow AI is a full-stack PHP MVC smart study planner designed to help students organize tasks, manage subjects, improve focus, and track academic progress through a modern SaaS-style interface.
+
+---
 
 ## 🚀 Features
 
-### 🔐 Authentication System
+- 🔐 User Authentication (Login/Register)
+- 📚 Subject Management
+- 📝 Task Management (priority, deadline, difficulty)
+- 🧠 Smart Planner (AI-style task recommendations)
+- ⏱ Focus Mode (Pomodoro-style sessions)
+- 📊 Progress Tracking & Analytics
+- 👤 Profile Management
+- 🛡 Secure Admin Panel
+- 🌐 Public Pages (About, Features, Contact)
+- 🎨 Premium SaaS UI (Glassmorphism + dashboard)
 
-* User registration & login
-* Secure password hashing
-* Session-based authentication
+---
 
-### 📊 Dashboard
+## 🛠 Tech Stack
 
-* Overview of subjects, tasks, and progress
-* Daily study time tracking
-* Motivation messages
-* Task completion analytics
+- PHP (MVC Architecture)
+- MySQL
+- HTML / CSS (Custom SaaS UI)
+- JavaScript
+- Chart.js (for analytics)
 
-### 📚 Subject Management
+---
 
-* Add, edit, delete subjects
-* Color-coded organization
-* Subject descriptions
+## ⚙ Installation
 
-### 📝 Task Management
+1. Clone project
 
-* Create and manage tasks
-* Set priority, difficulty, deadlines
-* Mark tasks as completed
-* Smart sorting system
+2. Move to XAMPP
 
-### 🧠 Smart Planner (AI Logic)
+3. Import database
+- Open phpMyAdmin
+- Create database: `studyflow_ai`
+- Import `.sql` file
 
-* Automatically ranks tasks using:
+4. Update config
+📍 `app/config/config.php`
 
-  * Deadline urgency
-  * Priority level
-  * Difficulty
-  * Estimated study time
-* Provides recommendation reasons
-* Burnout detection (workload warning)
+5. Run project
 
-### 🎨 UI/UX
+---
 
-* Modern glassmorphism design
-* Animated elements
-* Responsive layout
-* Sidebar navigation dashboard
+## 🔑 Admin Login
+Email: admin@studyflowai.com
 
-## 🛠️ Tech Stack
+Password: password
 
-* Backend: PHP (Custom MVC Architecture)
-* Frontend: HTML, CSS, JavaScript
-* Database: MySQL
-* Server: XAMPP
 
-## 💡 Key Highlight
+---
 
-The Smart Planner system acts like a basic AI by scoring and ranking tasks based on multiple factors, helping students focus on what matters most.
+## 📸 Screenshots
 
-## 📌 Author
+(Add later)
+- Dashboard
+- Planner
+- Focus Mode
+- Admin Panel
 
-Dulith Thenuka
+---
+
+## 🎯 Project Goal
+
+To build a modern student productivity platform that combines planning, focus, and analytics in one clean system.
+
+---
+
+## 👨‍💻 Author
+
+Dulith Thenuka  
 Software Engineering Student
-NSBM Green University
