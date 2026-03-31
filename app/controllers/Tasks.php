@@ -234,4 +234,26 @@ class Tasks extends Controller
             die('Something went wrong while updating task status');
         }
     }
+    public function getAllTasks()
+{
+    $this->db->query("
+        SELECT t.*, u.name as user_name
+        FROM tasks t
+        INNER JOIN users u ON t.user_id = u.id
+        ORDER BY t.created_at DESC
+    ");
+    return $this->db->resultSet();
+}
+
+public function getTotalTasksGlobal()
+{
+    $this->db->query('SELECT COUNT(*) as total FROM tasks');
+    return $this->db->single()->total;
+}
+
+public function getCompletedTasksGlobal()
+{
+    $this->db->query("SELECT COUNT(*) as total FROM tasks WHERE status='Completed'");
+    return $this->db->single()->total;
+}
 }

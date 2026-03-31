@@ -144,4 +144,30 @@ class Users extends Controller
         session_destroy();
         redirect('users/login');
     }
+    public function getAllUsers()
+{
+    $this->db->query('SELECT * FROM users ORDER BY created_at DESC');
+    return $this->db->resultSet();
+}
+
+public function getTotalUsers()
+{
+    $this->db->query('SELECT COUNT(*) AS total FROM users');
+    $row = $this->db->single();
+    return $row->total;
+}
+public function updateUser($data)
+{
+    $this->db->query("
+        UPDATE users
+        SET name = :name, email = :email
+        WHERE id = :id
+    ");
+
+    $this->db->bind(':name', $data['name']);
+    $this->db->bind(':email', $data['email']);
+    $this->db->bind(':id', $data['id']);
+
+    return $this->db->execute();
+}
 }

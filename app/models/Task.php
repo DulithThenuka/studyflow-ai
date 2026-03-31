@@ -341,4 +341,68 @@ class Task
 
         return 'Recommended because ' . implode(', ', $reasons) . '.';
     }
+
+    public function getOverallProgressStats($userId)
+    {
+        $this->db->query("
+            SELECT
+                COUNT(*) AS total_tasks,
+                SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) AS completed_tasks,
+                SUM(CASE WHEN status != 'Completed' THEN 1 ELSE 0 END) AS pending_tasks,
+                COALESCE(SUM(estimated_hours), 0) AS total_estimated_hours
+            FROM tasks
+            WHERE user_id = :user_id
+        ");
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->single();
+    }
+
+    public function getSubjectProgressByUser($userId)
+    {
+        $this->db->query("
+            SELECT
+                s.id,
+                s.subject_name,
+                s.color,
+                COUNT(t.id) AS total_tasks,
+                SUM(CASE WHEN t.status = 'Completed' THEN 1 ELSE 0 END) AS completed_tasks
+            FROM subjects s
+            LEFT JOIN tasks t ON s.id = t.subject_id
+            WHERE s.user_id = :user_id
+            GROUP BY s.id, s.subject_name, s.color
+            ORDER BY s.created_at DESC
+        ");
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->resultSet();
+    }
+
+    public function getAllTasks()
+    {
+        $this->db->query("
+            SELECT t.*, u.name AS user_name
+            FROM tasks t
+            INNER JOIN users u ON t.user_id = u.id
+            ORDER BY t.created_at DESC
+        ");
+
+        return $this->db->resultSet();
+    }
+
+    public function getTotalTasksGlobal()
+    {
+        $this->db->query('SELECT COUNT(*) AS total FROM tasks');
+        $row = $this->db->single();
+
+        return $row ? (int)$row->total : 0;
+    }
+
+    public function getCompletedTasksGlobal()
+    {
+        $this->db->query("SELECT COUNT(*) AS total FROM tasks WHERE status = 'Completed'");
+        $row = $this->db->single();
+
+        return $row ? (int)$row->total : 0;
+    }
 }

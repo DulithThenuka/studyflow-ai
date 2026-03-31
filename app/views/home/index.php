@@ -1,163 +1,123 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 <?php require APPROOT . '/views/inc/navbar.php'; ?>
 
-<section class="hero">
-    <div class="hero-bg">
+<section class="saas-hero">
+    <div class="saas-hero-bg">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="grid-glow"></div>
     </div>
 
-    <div class="container hero-container">
-        <div class="hero-text reveal">
-            <div class="badge">Smart Student Productivity Platform</div>
-            <h1>Plan Smarter.<br>Study Better.<br><span>Achieve More.</span></h1>
+    <div class="container saas-hero-container">
+        <div class="saas-hero-text reveal active">
+            <span class="badge">Student Productivity SaaS</span>
+            <h1>Study smarter with a beautiful AI-powered academic workspace.</h1>
             <p>
-                StudyFlow AI helps students organize subjects, manage deadlines, track progress,
-                and get intelligent study recommendations through a beautiful and modern experience.
+                StudyFlow AI helps students plan tasks, prioritize deadlines, run focus sessions,
+                and visualize study progress from one premium dashboard.
             </p>
 
             <div class="hero-buttons">
                 <a href="<?php echo URLROOT; ?>/users/register" class="btn btn-primary btn-lg">Start Free</a>
-                <a href="#features" class="btn btn-glass btn-lg">Explore Features</a>
+                <a href="<?php echo URLROOT; ?>/users/login" class="btn btn-outline btn-lg">Live Dashboard</a>
             </div>
 
-            <div class="hero-stats">
-                <div class="stat-card">
-                    <h3>Smart</h3>
-                    <p>task ranking</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Focus</h3>
-                    <p>session timer</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Track</h3>
-                    <p>your progress</p>
-                </div>
+            <div class="saas-hero-proof">
+                <div><strong>Smart</strong><span> task scoring</span></div>
+                <div><strong>Focus</strong><span> session mode</span></div>
+                <div><strong>Insight</strong><span> analytics & charts</span></div>
             </div>
         </div>
 
-        <div class="hero-visual reveal delay-1">
-            <div class="dashboard-mockup">
-                <div class="mockup-topbar">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+        <div class="saas-hero-ui reveal active">
+            <div class="saas-window">
+                <div class="saas-window-top">
+                    <span></span><span></span><span></span>
                 </div>
 
-                <div class="mockup-body">
-                    <aside class="mockup-sidebar">
-                        <div class="mock-logo">SF</div>
-                        <div class="mock-menu-item active"></div>
-                        <div class="mock-menu-item"></div>
-                        <div class="mock-menu-item"></div>
-                        <div class="mock-menu-item"></div>
-                    </aside>
+                <div class="saas-window-body">
+                    <div class="saas-preview-sidebar">
+                        <div class="preview-logo">SF</div>
+                        <div class="preview-nav-item active"></div>
+                        <div class="preview-nav-item"></div>
+                        <div class="preview-nav-item"></div>
+                        <div class="preview-nav-item"></div>
+                    </div>
 
-                    <main class="mockup-main">
-                        <div class="mock-row">
-                            <div class="mock-card large">
-                                <div class="mock-title"></div>
-                                <div class="mock-line wide"></div>
-                                <div class="mock-line"></div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill"></div>
-                                </div>
-                            </div>
-                            <div class="mock-card side">
-                                <div class="mock-circle"></div>
-                                <div class="mock-line"></div>
-                                <div class="mock-line short"></div>
-                            </div>
+                    <div class="saas-preview-main">
+                        <div class="preview-header-card"></div>
+                        <div class="preview-stats-row">
+                            <div class="preview-mini-card"></div>
+                            <div class="preview-mini-card"></div>
+                            <div class="preview-mini-card"></div>
                         </div>
-
-                        <div class="mock-row">
-                            <div class="mock-card">
-                                <div class="mock-line wide"></div>
-                                <div class="mock-line"></div>
-                                <div class="mock-line short"></div>
-                            </div>
-                            <div class="mock-card">
-                                <div class="mock-line wide"></div>
-                                <div class="mock-line"></div>
-                                <div class="mock-line short"></div>
-                            </div>
-                            <div class="mock-card">
-                                <div class="mock-line wide"></div>
-                                <div class="mock-line"></div>
-                                <div class="mock-line short"></div>
-                            </div>
+                        <div class="preview-chart-card"></div>
+                        <div class="preview-list-row">
+                            <div class="preview-list-card"></div>
+                            <div class="preview-list-card"></div>
                         </div>
-                    </main>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="feature-strip">
-    <div class="container feature-strip-grid reveal">
-        <div class="mini-feature">
-            <h4>Deadline Intelligence</h4>
-            <p>Know what needs attention first.</p>
-        </div>
-        <div class="mini-feature">
-            <h4>Focus Sessions</h4>
-            <p>Stay locked in with timer mode.</p>
-        </div>
-        <div class="mini-feature">
-            <h4>Progress Insights</h4>
-            <p>Turn effort into visible growth.</p>
-        </div>
+<section class="saas-logo-strip">
+    <div class="container saas-logo-strip-inner">
+        <span>Smart planning</span>
+        <span>Focus tracking</span>
+        <span>Progress insights</span>
+        <span>Student workflow</span>
+        <span>Premium dashboard</span>
     </div>
 </section>
 
-<section class="section" id="features">
+<section class="section">
     <div class="container">
-        <div class="section-heading reveal">
-            <span class="section-label">Features</span>
-            <h2>Everything students need in one smart platform</h2>
+        <div class="section-heading reveal active">
+            <span class="section-label">Why StudyFlow AI</span>
+            <h2>Your all-in-one academic operating system</h2>
             <p>
-                Built to feel like a real premium product, not a basic student CRUD project.
+                More than a normal student project — this is a polished SaaS-style experience for planning and performance.
             </p>
         </div>
 
         <div class="features-grid">
-            <div class="feature-card reveal">
-                <div class="feature-icon">📚</div>
-                <h3>Subject Management</h3>
-                <p>Create subjects, organize modules, and keep your academic life neatly structured.</p>
-            </div>
-
-            <div class="feature-card reveal delay-1">
+            <div class="feature-card reveal active">
                 <div class="feature-icon">🧠</div>
-                <h3>Smart Planner</h3>
-                <p>Tasks are ranked by urgency, priority, difficulty, and progress to suggest what to study first.</p>
+                <h3>AI-style Smart Planner</h3>
+                <p>Rank study tasks automatically based on urgency, difficulty, and effort.</p>
             </div>
 
-            <div class="feature-card reveal delay-2">
+            <div class="feature-card reveal active">
                 <div class="feature-icon">⏱</div>
-                <h3>Focus Mode</h3>
-                <p>Use a modern built-in timer for deep work sessions, short breaks, and better consistency.</p>
+                <h3>Built-in Focus Sessions</h3>
+                <p>Stay locked in with timer-based study sessions and save your deep work history.</p>
             </div>
 
-            <div class="feature-card reveal">
-                <div class="feature-icon">📈</div>
-                <h3>Progress Tracking</h3>
-                <p>Visualize completed work, pending tasks, and personal study momentum over time.</p>
+            <div class="feature-card reveal active">
+                <div class="feature-icon">📊</div>
+                <h3>Analytics Dashboard</h3>
+                <p>Visualize progress, compare subjects, and understand how your workload is changing.</p>
             </div>
 
-            <div class="feature-card reveal delay-1">
+            <div class="feature-card reveal active">
+                <div class="feature-icon">📚</div>
+                <h3>Subject Workspaces</h3>
+                <p>Organize modules, color-code subjects, and keep everything clean and structured.</p>
+            </div>
+
+            <div class="feature-card reveal active">
+                <div class="feature-icon">🚀</div>
+                <h3>Premium User Experience</h3>
+                <p>Enjoy a modern glassmorphism interface built to feel like a real startup product.</p>
+            </div>
+
+            <div class="feature-card reveal active">
                 <div class="feature-icon">🔥</div>
-                <h3>Study Streaks</h3>
-                <p>Stay motivated by building consistent habits and protecting your current streak.</p>
-            </div>
-
-            <div class="feature-card reveal delay-2">
-                <div class="feature-icon">✨</div>
-                <h3>Motivation System</h3>
-                <p>Small encouragements and intelligent reminders make the whole experience feel alive.</p>
+                <h3>Momentum Tracking</h3>
+                <p>Build consistent progress through visibility, focus time, and completion insights.</p>
             </div>
         </div>
     </div>
@@ -165,53 +125,53 @@
 
 <section class="section section-alt">
     <div class="container two-col">
-        <div class="content-block reveal">
-            <span class="section-label">Why StudyFlow AI</span>
-            <h2>A futuristic dashboard experience for modern students</h2>
+        <div class="content-block reveal active">
+            <span class="section-label">Built for real students</span>
+            <h2>From deadline chaos to a calm study workflow</h2>
             <p>
-                We are not building a plain website. We are building a beautiful student command center
-                with premium visuals, smooth interactions, and smart functionality that actually feels unique.
+                StudyFlow AI transforms scattered academic tasks into one structured workspace where students can
+                see what matters, focus deeply, and improve week by week.
             </p>
             <ul class="custom-list">
-                <li>Premium dark UI with glassmorphism cards</li>
-                <li>Elegant animations and modern dashboard layout</li>
-                <li>Smart study recommendation engine</li>
-                <li>Built with PHP, JavaScript, HTML, CSS, and MySQL</li>
+                <li>Track assignments, quizzes, revisions, and exams</li>
+                <li>Use AI-style scoring to decide what to study first</li>
+                <li>Measure focus time and study progress visually</li>
+                <li>Keep subjects, deadlines, and sessions in one dashboard</li>
             </ul>
         </div>
 
-        <div class="info-panel reveal delay-1">
+        <div class="info-panel reveal active">
             <div class="info-widget">
                 <div class="widget-top">
                     <span class="widget-dot"></span>
                     <span>Today’s Recommendation</span>
                 </div>
                 <h3>Database Revision</h3>
-                <p>Deadline is close. Completing this today will reduce tomorrow’s workload.</p>
+                <p>Recommended because the deadline is near, difficulty is high, and the task is still pending.</p>
                 <div class="widget-tags">
+                    <span>Urgent</span>
                     <span>High Priority</span>
                     <span>2 Hours</span>
-                    <span>Urgent</span>
                 </div>
             </div>
 
             <div class="info-widget small">
-                <h4>Weekly Progress</h4>
+                <h4>Weekly Completion</h4>
                 <div class="progress-bar">
                     <div class="progress-fill fill-72"></div>
                 </div>
-                <p>72% of your weekly study goals completed.</p>
+                <p>72% of weekly targets completed inside the workspace.</p>
             </div>
         </div>
     </div>
 </section>
 
 <section class="section cta-section">
-    <div class="container cta-box reveal">
+    <div class="container cta-box reveal active">
         <span class="section-label">Get Started</span>
-        <h2>Start building your smarter study life today</h2>
+        <h2>Turn your study system into a real workflow</h2>
         <p>
-            Register, add your subjects, create tasks, and let StudyFlow AI guide your next study session.
+            Join StudyFlow AI and manage subjects, tasks, focus sessions, and progress inside one modern platform.
         </p>
         <div class="hero-buttons center">
             <a href="<?php echo URLROOT; ?>/users/register" class="btn btn-primary btn-lg">Create Account</a>

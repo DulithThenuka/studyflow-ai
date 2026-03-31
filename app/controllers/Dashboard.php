@@ -28,6 +28,8 @@ class Dashboard extends Controller
         $recentTasks = $this->taskModel->getRecentTasksByUser($userId);
         $studyMinutesToday = $this->studySessionModel->getTodayStudyMinutesByUser($userId);
         $motivationMessage = $this->taskModel->getRandomMotivationMessage();
+        $subjectProgress = $this->taskModel->getSubjectProgressByUser($userId);
+        $weeklyStudyMinutes = $this->studySessionModel->getLast7DaysStudyBreakdown($userId);
 
         $completionRate = 0;
         if ($totalTasks > 0) {
@@ -44,7 +46,9 @@ class Dashboard extends Controller
             'recentTasks' => $recentTasks,
             'studyMinutesToday' => $studyMinutesToday,
             'motivationMessage' => $motivationMessage,
-            'completionRate' => $completionRate
+            'completionRate' => $completionRate,
+            'subjectProgress' => $subjectProgress,
+            'weeklyStudyMinutes' => $weeklyStudyMinutes
         ];
 
         $this->view('dashboard/index', $data);

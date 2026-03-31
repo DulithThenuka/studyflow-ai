@@ -76,4 +76,11 @@ class Subject
 
         return $this->db->execute();
     }
+    public function getTotalSubjectsGlobal()
+{
+    $this->db->query('SELECT COUNT(*) AS total FROM subjects');
+    $row = $this->db->single();
+
+    return $row ? (int)$row->total : 0;
+}
 }
