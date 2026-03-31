@@ -37,7 +37,13 @@ class StudySession
         $this->db->bind(':session_type', $data['session_type']);
         $this->db->bind(':notes', $data['notes']);
 
-        return $this->db->execute();
+        $saved = $this->db->execute();
+
+        if ($saved && $data['session_type'] === 'Focus') {
+            $this->updateStudyStreak($data['user_id'], $data['session_date']);
+        }
+
+        return $saved;
     }
 
     public function getRecentSessionsByUser($userId)
@@ -84,5 +90,82 @@ class StudySession
         $this->db->bind(':user_id', $userId);
 
         return $this->db->resultSet();
+    }
+
+    public function getStudyStreakByUser($userId)
+    {
+        $this->db->query("
+            SELECT *
+            FROM study_streaks
+            WHERE user_id = :user_id
+        ");
+        $this->db->bind(':user_id', $userId);
+
+        $row = $this->db->single();
+
+        if (!$row) {
+            $this->db->query("
+                INSERT INTO study_streaks (user_id, current_streak, longest_streak, last_study_date)
+                VALUES (:user_id, 0, 0, NULL)
+            ");
+            $this->db->bind(':user_id', $userId);
+            $this->db->execute();
+
+            $this->db->query("
+                SELECT *
+                FROM study_streaks
+                WHERE user_id = :user_id
+            ");
+            $this->db->bind(':user_id', $userId);
+            $row = $this->db->single();
+        }
+
+        return $row;
+    }
+
+    private function updateStudyStreak($userId, $sessionDate)
+    {
+        $streak = $this->getStudyStreakByUser($userId);
+
+        $lastDate = $streak->last_study_date;
+        $currentStreak = (int)$streak->current_streak;
+        $longestStreak = (int)$streak->longest_streak;
+
+        if ($lastDate === $sessionDate) {
+            return;
+        }
+
+        if ($lastDate === null) {
+            $currentStreak = 1;
+        } else {
+            $last = new DateTime($lastDate);
+            $current = new DateTime($sessionDate);
+            $diff = (int)$last->diff($current)->format('%a');
+
+            if ($diff === 1) {
+                $currentStreak++;
+            } elseif ($diff > 1) {
+                $currentStreak = 1;
+            }
+        }
+
+        if ($currentStreak > $longestStreak) {
+            $longestStreak = $currentStreak;
+        }
+
+        $this->db->query("
+            UPDATE study_streaks
+            SET current_streak = :current_streak,
+                longest_streak = :longest_streak,
+                last_study_date = :last_study_date
+            WHERE user_id = :user_id
+        ");
+
+        $this->db->bind(':current_streak', $currentStreak);
+        $this->db->bind(':longest_streak', $longestStreak);
+        $this->db->bind(':last_study_date', $sessionDate);
+        $this->db->bind(':user_id', $userId);
+
+        $this->db->execute();
     }
 }

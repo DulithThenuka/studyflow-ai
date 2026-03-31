@@ -405,4 +405,61 @@ class Task
 
         return $row ? (int)$row->total : 0;
     }
+        public function getUpcomingDeadlineAlerts($userId)
+    {
+        $this->db->query("
+            SELECT t.*, s.subject_name, s.color
+            FROM tasks t
+            INNER JOIN subjects s ON t.subject_id = s.id
+            WHERE t.user_id = :user_id
+              AND t.status != 'Completed'
+              AND t.deadline IS NOT NULL
+              AND t.deadline BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 3 DAY)
+            ORDER BY t.deadline ASC
+            LIMIT 5
+        ");
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->resultSet();
+    }
+
+    public function getOverdueTasksByUser($userId)
+    {
+        $this->db->query("
+            SELECT t.*, s.subject_name, s.color
+            FROM tasks t
+            INNER JOIN subjects s ON t.subject_id = s.id
+            WHERE t.user_id = :user_id
+              AND t.status != 'Completed'
+              AND t.deadline IS NOT NULL
+              AND t.deadline < CURDATE()
+            ORDER BY t.deadline ASC
+            LIMIT 5
+        ");
+        $this->db->bind(':user_id', $userId);
+
+        return $this->db->resultSet();
+    }
+
+    public function getBestTaskForToday($userId)
+    {
+        $this->db->query("
+            SELECT t.*, s.subject_name, s.color
+            FROM tasks t
+            INNER JOIN subjects s ON t.subject_id = s.id
+            WHERE t.user_id = :user_id
+              AND t.status != 'Completed'
+            ORDER BY t.score DESC, t.deadline IS NULL, t.deadline ASC
+            LIMIT 1
+        ");
+        $this->db->bind(':user_id', $userId);
+
+        $task = $this->db->single();
+
+        if ($task) {
+            $task->recommendation_note = $this->buildRecommendationNote($task);
+        }
+
+        return $task;
+    }
 }

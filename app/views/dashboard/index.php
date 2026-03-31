@@ -34,6 +34,65 @@ foreach ($daysMap as $date => $minutes) {
         <?php require APPROOT . '/views/inc/sidebar.php'; ?>
 
         <main class="dashboard-main">
+            <div class="dashboard-alert-grid">
+    <?php if (!empty($data['bestTaskForToday'])) : ?>
+        <div class="dashboard-alert-card best-task-card">
+            <div class="card-head">
+                <h3>Best Task for Today</h3>
+                <span>🧠</span>
+            </div>
+            <h4><?php echo htmlspecialchars($data['bestTaskForToday']->title); ?></h4>
+            <p>
+                <?php echo htmlspecialchars($data['bestTaskForToday']->subject_name); ?> •
+                <?php echo htmlspecialchars($data['bestTaskForToday']->priority); ?> Priority
+            </p>
+            <small><?php echo htmlspecialchars($data['bestTaskForToday']->recommendation_note); ?></small>
+        </div>
+    <?php endif; ?>
+
+    <div class="dashboard-alert-card streak-card">
+        <div class="card-head">
+            <h3>Study Streak</h3>
+            <span>🔥</span>
+        </div>
+        <h4><?php echo (int)$data['studyStreak']->current_streak; ?> day streak</h4>
+        <p>Longest streak: <?php echo (int)$data['studyStreak']->longest_streak; ?> days</p>
+        <small>Keep studying daily to build momentum.</small>
+    </div>
+</div>
+
+<?php if (!empty($data['overdueTasks'])) : ?>
+    <div class="planner-warning" style="margin-bottom: 18px;">
+        <strong>Overdue Warning:</strong>
+        <span>You have <?php echo count($data['overdueTasks']); ?> overdue task(s) that need immediate attention.</span>
+    </div>
+<?php endif; ?>
+
+<?php if (!empty($data['upcomingAlerts'])) : ?>
+    <div class="dashboard-reminder-box">
+        <div class="card-head">
+            <h3>Upcoming Deadline Alerts</h3>
+            <span>⏰</span>
+        </div>
+
+        <div class="task-list">
+            <?php foreach ($data['upcomingAlerts'] as $task) : ?>
+                <div class="task-row">
+                    <div class="task-left">
+                        <span class="subject-dot" style="background: <?php echo htmlspecialchars($task->color); ?>;"></span>
+                        <div>
+                            <h4><?php echo htmlspecialchars($task->title); ?></h4>
+                            <p><?php echo htmlspecialchars($task->subject_name); ?> • Due <?php echo htmlspecialchars($task->deadline); ?></p>
+                        </div>
+                    </div>
+                    <div class="task-right">
+                        <span class="deadline-pill"><?php echo htmlspecialchars($task->deadline); ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+<?php endif; ?>
             <div class="command-bar">
                 <div class="command-search">
                     <span class="command-icon">⌕</span>
