@@ -16,6 +16,7 @@
                 <a href="<?php echo URLROOT; ?>/admin/users" class="admin-link">Users</a>
                 <a href="<?php echo URLROOT; ?>/admin/tasks" class="admin-link active">Tasks</a>
                 <a href="<?php echo URLROOT; ?>" class="admin-link">Main Site</a>
+                <a href="<?php echo URLROOT; ?>/admin/logout" class="admin-link">Logout</a>
             </nav>
         </aside>
 
