@@ -485,4 +485,58 @@ class Task
 
         return $tasks;
     }
+        public function getPendingTasksGlobal()
+    {
+        $this->db->query("SELECT COUNT(*) AS total FROM tasks WHERE status != 'Completed'");
+        $row = $this->db->single();
+
+        return $row ? (int)$row->total : 0;
+    }
+
+    public function filterAdminTasks($search = '', $status = '')
+    {
+        $sql = "
+            SELECT t.*, u.name AS user_name
+            FROM tasks t
+            INNER JOIN users u ON t.user_id = u.id
+            WHERE 1 = 1
+        ";
+
+        if (!empty($search)) {
+            $sql .= " AND (t.title LIKE :search OR u.name LIKE :search OR t.task_type LIKE :search)";
+        }
+
+        if (!empty($status)) {
+            $sql .= " AND t.status = :status";
+        }
+
+        $sql .= " ORDER BY t.created_at DESC";
+
+        $this->db->query($sql);
+
+        if (!empty($search)) {
+            $this->db->bind(':search', '%' . $search . '%');
+        }
+
+        if (!empty($status)) {
+            $this->db->bind(':status', $status);
+        }
+
+        return $this->db->resultSet();
+    }
+
+    public function getPlatformActivityStats()
+    {
+        $this->db->query("
+            SELECT
+                COUNT(*) AS total_tasks,
+                SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) AS completed_tasks,
+                SUM(CASE WHEN status = 'Pending' THEN 1 ELSE 0 END) AS pending_tasks,
+                SUM(CASE WHEN status = 'In Progress' THEN 1 ELSE 0 END) AS in_progress_tasks,
+                COALESCE(SUM(estimated_hours), 0) AS total_estimated_hours
+            FROM tasks
+        ");
+
+        return $this->db->single();
+    }
 }

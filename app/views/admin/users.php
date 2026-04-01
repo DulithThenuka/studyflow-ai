@@ -25,14 +25,21 @@
                 <div>
                     <span class="section-label">Admin</span>
                     <h1>Manage Users</h1>
-                    <p>View all registered users in the platform.</p>
+                    <p>Search and manage all registered users.</p>
                 </div>
             </div>
 
+            <?php flash('admin_message'); ?>
+
             <div class="admin-card">
-                <div class="card-head">
-                    <h3>All Users</h3>
-                </div>
+                <form action="<?php echo URLROOT; ?>/admin/users" method="GET" class="admin-filter-bar">
+                    <div class="command-search">
+                        <span class="command-icon">⌕</span>
+                        <input type="text" name="search" placeholder="Search by name, email, university, or course" value="<?php echo htmlspecialchars($data['search']); ?>">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    <a href="<?php echo URLROOT; ?>/admin/users" class="btn btn-outline">Reset</a>
+                </form>
 
                 <?php if (!empty($data['users'])) : ?>
                     <div class="admin-table-wrap">
@@ -44,6 +51,7 @@
                                     <th>University</th>
                                     <th>Course</th>
                                     <th>Joined</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,6 +62,11 @@
                                         <td><?php echo !empty($user->university) ? htmlspecialchars($user->university) : '-'; ?></td>
                                         <td><?php echo !empty($user->course) ? htmlspecialchars($user->course) : '-'; ?></td>
                                         <td><?php echo htmlspecialchars($user->created_at); ?></td>
+                                        <td>
+                                            <form action="<?php echo URLROOT; ?>/admin/deleteUser/<?php echo $user->id; ?>" method="POST" onsubmit="return confirm('Delete this user?');">
+                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -62,8 +75,8 @@
                 <?php else : ?>
                     <div class="premium-empty-state">
                         <div class="empty-illustration">👥</div>
-                        <h4>No users found</h4>
-                        <p>Once people register, they will show here.</p>
+                        <h4>No matching users found</h4>
+                        <p>Try another search term.</p>
                     </div>
                 <?php endif; ?>
             </div>

@@ -2447,3 +2447,41 @@ textarea {
         flex-direction: column;
     }
 }
+.admin-filter-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.admin-select {
+    min-width: 180px;
+    min-height: 52px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    outline: none;
+}
+
+.admin-quick-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.admin-list-item strong {
+    font-size: 1.05rem;
+    color: #f8fafc;
+}
+
+@media (max-width: 768px) {
+    .admin-filter-bar {
+        flex-direction: column;
+    }
+
+    .admin-select {
+        width: 100%;
+    }
+}

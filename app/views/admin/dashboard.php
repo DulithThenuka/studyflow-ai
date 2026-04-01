@@ -25,9 +25,11 @@
                 <div>
                     <span class="section-label">Admin Dashboard</span>
                     <h1>System Overview</h1>
-                    <p>Monitor platform growth, users, tasks, and completion performance.</p>
+                    <p>Monitor users, tasks, and overall platform activity.</p>
                 </div>
             </div>
+
+            <?php flash('admin_message'); ?>
 
             <div class="admin-stats-grid">
                 <div class="admin-stat-card">
@@ -36,7 +38,7 @@
                         <span>👥</span>
                     </div>
                     <h2><?php echo $data['total_users']; ?></h2>
-                    <p>Registered student accounts</p>
+                    <p>Registered accounts</p>
                 </div>
 
                 <div class="admin-stat-card">
@@ -45,7 +47,7 @@
                         <span>📚</span>
                     </div>
                     <h2><?php echo $data['total_subjects']; ?></h2>
-                    <p>Subjects created in the system</p>
+                    <p>Subjects across the platform</p>
                 </div>
 
                 <div class="admin-stat-card">
@@ -54,7 +56,7 @@
                         <span>📝</span>
                     </div>
                     <h2><?php echo $data['total_tasks']; ?></h2>
-                    <p>All tasks from all users</p>
+                    <p>All created tasks</p>
                 </div>
 
                 <div class="admin-stat-card">
@@ -63,63 +65,55 @@
                         <span>✅</span>
                     </div>
                     <h2><?php echo $data['completed_tasks']; ?></h2>
-                    <p>Total completed tasks in platform</p>
+                    <p>Finished tasks platform-wide</p>
                 </div>
             </div>
 
             <div class="admin-grid">
                 <div class="admin-card">
                     <div class="card-head">
-                        <h3>Recent Users</h3>
-                        <a href="<?php echo URLROOT; ?>/admin/users" class="btn btn-outline btn-sm">View All</a>
+                        <h3>Platform Activity</h3>
+                        <span>📊</span>
                     </div>
 
-                    <?php if (!empty($data['users'])) : ?>
-                        <div class="admin-list">
-                            <?php foreach (array_slice($data['users'], 0, 5) as $user) : ?>
-                                <div class="admin-list-item">
-                                    <div>
-                                        <h4><?php echo htmlspecialchars($user->name); ?></h4>
-                                        <p><?php echo htmlspecialchars($user->email); ?></p>
-                                    </div>
-                                    <small><?php echo htmlspecialchars($user->created_at); ?></small>
-                                </div>
-                            <?php endforeach; ?>
+                    <div class="admin-list">
+                        <div class="admin-list-item">
+                            <div>
+                                <h4>Pending Tasks</h4>
+                                <p>Tasks still waiting to be completed</p>
+                            </div>
+                            <strong><?php echo (int)$data['platform_activity']->pending_tasks; ?></strong>
                         </div>
-                    <?php else : ?>
-                        <div class="premium-empty-state">
-                            <div class="empty-illustration">👥</div>
-                            <h4>No users yet</h4>
-                            <p>User accounts will appear here when students register.</p>
+
+                        <div class="admin-list-item">
+                            <div>
+                                <h4>In Progress Tasks</h4>
+                                <p>Tasks currently being worked on</p>
+                            </div>
+                            <strong><?php echo (int)$data['platform_activity']->in_progress_tasks; ?></strong>
                         </div>
-                    <?php endif; ?>
+
+                        <div class="admin-list-item">
+                            <div>
+                                <h4>Total Estimated Hours</h4>
+                                <p>Total planned academic workload</p>
+                            </div>
+                            <strong><?php echo htmlspecialchars($data['platform_activity']->total_estimated_hours); ?> hrs</strong>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="admin-card">
                     <div class="card-head">
-                        <h3>Recent Tasks</h3>
-                        <a href="<?php echo URLROOT; ?>/admin/tasks" class="btn btn-outline btn-sm">View All</a>
+                        <h3>Quick Access</h3>
+                        <span>⚡</span>
                     </div>
 
-                    <?php if (!empty($data['tasks'])) : ?>
-                        <div class="admin-list">
-                            <?php foreach (array_slice($data['tasks'], 0, 5) as $task) : ?>
-                                <div class="admin-list-item">
-                                    <div>
-                                        <h4><?php echo htmlspecialchars($task->title); ?></h4>
-                                        <p><?php echo htmlspecialchars($task->user_name); ?> • <?php echo htmlspecialchars($task->status); ?></p>
-                                    </div>
-                                    <small><?php echo htmlspecialchars($task->created_at); ?></small>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php else : ?>
-                        <div class="premium-empty-state">
-                            <div class="empty-illustration">📝</div>
-                            <h4>No tasks yet</h4>
-                            <p>Tasks created by users will appear here.</p>
-                        </div>
-                    <?php endif; ?>
+                    <div class="admin-quick-links">
+                        <a href="<?php echo URLROOT; ?>/admin/users" class="btn btn-outline">Manage Users</a>
+                        <a href="<?php echo URLROOT; ?>/admin/tasks" class="btn btn-outline">Manage Tasks</a>
+                        <a href="<?php echo URLROOT; ?>" class="btn btn-primary">Open Main Site</a>
+                    </div>
                 </div>
             </div>
         </main>

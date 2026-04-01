@@ -56,7 +56,10 @@ class Admin extends Controller
                 $loggedInAdmin = $this->adminModel->login($data['email'], $data['password']);
 
                 if ($loggedInAdmin) {
-                    $this->createAdminSession($loggedInAdmin);
+                    $_SESSION['admin_id'] = $loggedInAdmin->id;
+                    $_SESSION['admin_email'] = $loggedInAdmin->email;
+                    $_SESSION['admin_username'] = $loggedInAdmin->username;
+                    redirect('admin/dashboard');
                 } else {
                     $data['password_err'] = 'Password is incorrect';
                     $this->view('admin/login', $data);
@@ -74,15 +77,6 @@ class Admin extends Controller
 
             $this->view('admin/login', $data);
         }
-    }
-
-    private function createAdminSession($admin)
-    {
-        $_SESSION['admin_id'] = $admin->id;
-        $_SESSION['admin_email'] = $admin->email;
-        $_SESSION['admin_username'] = $admin->username;
-
-        redirect('admin/dashboard');
     }
 
     public function logout()
@@ -111,9 +105,11 @@ class Admin extends Controller
             'total_users' => $this->userModel->getTotalUsers(),
             'total_tasks' => $this->taskModel->getTotalTasksGlobal(),
             'completed_tasks' => $this->taskModel->getCompletedTasksGlobal(),
+            'pending_tasks' => $this->taskModel->getPendingTasksGlobal(),
             'total_subjects' => $this->subjectModel->getTotalSubjectsGlobal(),
             'users' => $this->userModel->getAllUsers(),
-            'tasks' => $this->taskModel->getAllTasks()
+            'tasks' => $this->taskModel->getAllTasks(),
+            'platform_activity' => $this->taskModel->getPlatformActivityStats()
         ];
 
         $this->view('admin/dashboard', $data);
@@ -123,9 +119,13 @@ class Admin extends Controller
     {
         $this->requireAdmin();
 
+        $search = trim($_GET['search'] ?? '');
+        $users = $this->userModel->searchUsers($search);
+
         $data = [
             'title' => 'Manage Users',
-            'users' => $this->userModel->getAllUsers()
+            'users' => $users,
+            'search' => $search
         ];
 
         $this->view('admin/users', $data);
@@ -135,11 +135,52 @@ class Admin extends Controller
     {
         $this->requireAdmin();
 
+        $search = trim($_GET['search'] ?? '');
+        $status = trim($_GET['status'] ?? '');
+
+        $tasks = $this->taskModel->filterAdminTasks($search, $status);
+
         $data = [
             'title' => 'Manage Tasks',
-            'tasks' => $this->taskModel->getAllTasks()
+            'tasks' => $tasks,
+            'search' => $search,
+            'status' => $status
         ];
 
         $this->view('admin/tasks', $data);
+    }
+
+    public function deleteUser($id = null)
+    {
+        $this->requireAdmin();
+
+        if ($_SERVER['REQUEST_METHOD'] != 'POST' || !$id || !is_numeric($id)) {
+            redirect('admin/users');
+        }
+
+        if ($this->userModel->deleteUserById($id)) {
+            flash('admin_message', 'User deleted successfully.');
+        } else {
+            flash('admin_message', 'Failed to delete user.', 'alert-warning');
+        }
+
+        redirect('admin/users');
+    }
+
+    public function deleteTask($id = null)
+    {
+        $this->requireAdmin();
+
+        if ($_SERVER['REQUEST_METHOD'] != 'POST' || !$id || !is_numeric($id)) {
+            redirect('admin/tasks');
+        }
+
+        if ($this->taskModel->deleteTask($id)) {
+            flash('admin_message', 'Task deleted successfully.');
+        } else {
+            flash('admin_message', 'Failed to delete task.', 'alert-warning');
+        }
+
+        redirect('admin/tasks');
     }
 }

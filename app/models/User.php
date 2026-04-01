@@ -95,4 +95,28 @@ class User
 
         return $row ? (int)$row->total : 0;
     }
+        public function searchUsers($search = '')
+    {
+        if (!empty($search)) {
+            $this->db->query("
+                SELECT *
+                FROM users
+                WHERE name LIKE :search OR email LIKE :search OR university LIKE :search OR course LIKE :search
+                ORDER BY created_at DESC
+            ");
+            $this->db->bind(':search', '%' . $search . '%');
+        } else {
+            $this->db->query('SELECT * FROM users ORDER BY created_at DESC');
+        }
+
+        return $this->db->resultSet();
+    }
+
+    public function deleteUserById($id)
+    {
+        $this->db->query('DELETE FROM users WHERE id = :id');
+        $this->db->bind(':id', $id);
+
+        return $this->db->execute();
+    }
 }
