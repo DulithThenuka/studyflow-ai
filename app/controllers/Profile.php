@@ -38,6 +38,7 @@ class Profile extends Controller
         $currentUser = $this->userModel->getUserById($_SESSION['user_id']);
 
         $data = [
+            'title' => 'Profile',
             'id' => $_SESSION['user_id'],
             'name' => trim($_POST['name'] ?? ''),
             'email' => trim($_POST['email'] ?? ''),
@@ -59,6 +60,10 @@ class Profile extends Controller
 
         if (empty($data['email'])) {
             $data['email_err'] = 'Please enter your email';
+        } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            $data['email_err'] = 'Please enter a valid email address';
+        } elseif ($this->userModel->findUserByEmailExcludingId($data['email'], $data['id'])) {
+            $data['email_err'] = 'That email is already used by another account';
         }
 
         if (!empty($_FILES['profile_image']['name'])) {

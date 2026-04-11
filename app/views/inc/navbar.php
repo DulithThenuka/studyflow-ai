@@ -5,7 +5,7 @@
             <span class="logo-text">StudyFlow AI</span>
         </a>
 
-        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
@@ -19,6 +19,7 @@
 
             <?php if (isLoggedIn()) : ?>
                 <a href="<?php echo URLROOT; ?>/dashboard" class="btn btn-outline">Dashboard</a>
+                <a href="<?php echo URLROOT; ?>/profile" class="btn btn-outline">Profile</a>
                 <a href="<?php echo URLROOT; ?>/users/logout" class="btn btn-primary">Logout</a>
             <?php else : ?>
                 <a href="<?php echo URLROOT; ?>/users/login" class="btn btn-outline">Login</a>
