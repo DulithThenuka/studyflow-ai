@@ -14,7 +14,6 @@ class Users extends Controller
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             $data = [
-                'title' => 'Register',
                 'name' => trim($_POST['name'] ?? ''),
                 'email' => trim($_POST['email'] ?? ''),
                 'password' => trim($_POST['password'] ?? ''),
@@ -27,14 +26,10 @@ class Users extends Controller
 
             if (empty($data['name'])) {
                 $data['name_err'] = 'Please enter your name';
-            } elseif (strlen($data['name']) < 2) {
-                $data['name_err'] = 'Name must be at least 2 characters';
             }
 
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter your email';
-            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                $data['email_err'] = 'Please enter a valid email address';
             } elseif ($this->userModel->findUserByEmail($data['email'])) {
                 $data['email_err'] = 'Email is already registered';
             }
@@ -70,7 +65,6 @@ class Users extends Controller
             }
         } else {
             $data = [
-                'title' => 'Register',
                 'name' => '',
                 'email' => '',
                 'password' => '',
@@ -91,7 +85,6 @@ class Users extends Controller
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             $data = [
-                'title' => 'Login',
                 'email' => trim($_POST['email'] ?? ''),
                 'password' => trim($_POST['password'] ?? ''),
                 'email_err' => '',
@@ -100,15 +93,13 @@ class Users extends Controller
 
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter your email';
-            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                $data['email_err'] = 'Please enter a valid email address';
             }
 
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter your password';
             }
 
-            if (empty($data['email_err']) && !$this->userModel->findUserByEmail($data['email'])) {
+            if (!$this->userModel->findUserByEmail($data['email'])) {
                 $data['email_err'] = 'No user found with that email';
             }
 
@@ -126,7 +117,6 @@ class Users extends Controller
             }
         } else {
             $data = [
-                'title' => 'Login',
                 'email' => '',
                 'password' => '',
                 'email_err' => '',
@@ -137,10 +127,8 @@ class Users extends Controller
         }
     }
 
-    private function createUserSession($user)
+    public function createUserSession($user)
     {
-        session_regenerate_id(true);
-
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_email'] = $user->email;
         $_SESSION['user_name'] = $user->name;
@@ -153,10 +141,33 @@ class Users extends Controller
         unset($_SESSION['user_id']);
         unset($_SESSION['user_email']);
         unset($_SESSION['user_name']);
-
-        session_regenerate_id(true);
         session_destroy();
-
         redirect('users/login');
     }
+    public function getAllUsers()
+{
+    $this->db->query('SELECT * FROM users ORDER BY created_at DESC');
+    return $this->db->resultSet();
+}
+
+public function getTotalUsers()
+{
+    $this->db->query('SELECT COUNT(*) AS total FROM users');
+    $row = $this->db->single();
+    return $row->total;
+}
+public function updateUser($data)
+{
+    $this->db->query("
+        UPDATE users
+        SET name = :name, email = :email
+        WHERE id = :id
+    ");
+
+    $this->db->bind(':name', $data['name']);
+    $this->db->bind(':email', $data['email']);
+    $this->db->bind(':id', $data['id']);
+
+    return $this->db->execute();
+}
 }

@@ -2,245 +2,221 @@
 
 <?php
 $subjectLabels = [];
+$subjectTotals = [];
 $subjectCompleted = [];
-$weekLabels = [];
-$weekMinutes = [];
 
 if (!empty($data['subjectProgress'])) {
     foreach ($data['subjectProgress'] as $subject) {
         $subjectLabels[] = $subject->subject_name;
-        $subjectCompleted[] = (int) $subject->completed_tasks;
-    }
-}
-
-if (!empty($data['weeklyStudyMinutes'])) {
-    foreach ($data['weeklyStudyMinutes'] as $row) {
-        $weekLabels[] = $row->session_date;
-        $weekMinutes[] = (int) $row->total_minutes;
+        $subjectTotals[] = (int)$subject->total_tasks;
+        $subjectCompleted[] = (int)$subject->completed_tasks;
     }
 }
 ?>
 
-<section class="dashboard-page dashboard-page-modern">
+<section class="dashboard-page">
     <div class="dashboard-layout">
         <?php require APPROOT . '/views/inc/sidebar.php'; ?>
 
-        <main class="dashboard-main modern-dashboard-main">
-            <div class="dashboard-hero page-hero progress-hero">
-                <div class="dashboard-hero-copy">
+        <main class="dashboard-main">
+            <div class="command-bar">
+                <div class="command-search">
+                    <span class="command-icon">⌕</span>
+                    <input type="text" placeholder="Search analytics, sessions, subjects..." />
+                </div>
+            </div>
+
+            <div class="dashboard-topbar">
+                <div>
                     <span class="section-label">Progress</span>
-                    <h1>See your growth clearly</h1>
-                    <p>
-                        Review study sessions, task completion, subject performance,
-                        and long-term momentum from one analytics page.
-                    </p>
-                </div>
-
-                <div class="dashboard-hero-actions">
-                    <a href="<?php echo URLROOT; ?>/focus" class="btn btn-primary">Start Focus</a>
-                    <a href="<?php echo URLROOT; ?>/planner" class="btn btn-outline">Open Planner</a>
+                    <h1>Your Study Analytics</h1>
+                    <p>Track subject performance, completion rates, and recent deep work history.</p>
                 </div>
             </div>
 
-            <div class="stats-grid modern-stats-grid compact-stats-grid">
-                <div class="dash-card stat-box modern-stat-box">
-                    <div class="stat-top">
-                        <span>Total Study Minutes</span>
-                        <span class="stat-icon">⏱</span>
-                    </div>
-                    <h2><?php echo (int) ($data['totalStudyMinutes'] ?? 0); ?></h2>
-                    <p>All focus minutes recorded so far</p>
+            <div class="progress-summary-grid">
+                <div class="progress-summary-card">
+                    <h3><?php echo (int)($data['overallStats']->total_tasks ?? 0); ?></h3>
+                    <p>Total Tasks</p>
                 </div>
 
-                <div class="dash-card stat-box modern-stat-box success-card">
-                    <div class="stat-top">
-                        <span>Completed Tasks</span>
-                        <span class="stat-icon">✅</span>
-                    </div>
-                    <h2><?php echo (int) ($data['completedTasks'] ?? 0); ?></h2>
-                    <p>Total finished work across your system</p>
+                <div class="progress-summary-card">
+                    <h3><?php echo (int)($data['overallStats']->completed_tasks ?? 0); ?></h3>
+                    <p>Completed Tasks</p>
                 </div>
 
-                <div class="dash-card stat-box modern-stat-box focus-card">
-                    <div class="stat-top">
-                        <span>Current Streak</span>
-                        <span class="stat-icon">🔥</span>
-                    </div>
-                    <h2><?php echo (int) ($data['studyStreak']->current_streak ?? 0); ?></h2>
-                    <p>How many days you have kept going</p>
+                <div class="progress-summary-card">
+                    <h3><?php echo (int)($data['overallStats']->pending_tasks ?? 0); ?></h3>
+                    <p>Pending Tasks</p>
                 </div>
 
-                <div class="dash-card stat-box modern-stat-box">
-                    <div class="stat-top">
-                        <span>Longest Streak</span>
-                        <span class="stat-icon">🏆</span>
-                    </div>
-                    <h2><?php echo (int) ($data['studyStreak']->longest_streak ?? 0); ?></h2>
-                    <p>Your strongest consistency record</p>
+                <div class="progress-summary-card">
+                    <h3><?php echo (int)$data['weeklyStudyMinutes']; ?> min</h3>
+                    <p>Last 7 Days Focus</p>
                 </div>
             </div>
 
-            <div class="dashboard-chart-grid modern-chart-grid">
-                <div class="dash-card chart-card modern-chart-card">
+            <div class="dashboard-grid">
+                <div class="dash-card progress-highlight-card">
                     <div class="card-head">
-                        <h3>Focus Minutes Over Time</h3>
+                        <h3>Overall Completion</h3>
+                        <span><?php echo (int)$data['completionRate']; ?>%</span>
+                    </div>
+
+                    <p class="muted-text">Your completed work percentage across the full study system.</p>
+
+                    <div class="dashboard-progress">
+                        <div class="dashboard-progress-fill" style="width: <?php echo (int)$data['completionRate']; ?>%;"></div>
+                    </div>
+
+                    <div class="progress-highlight-meta">
+                        <div>
+                            <strong><?php echo htmlspecialchars($data['overallStats']->total_estimated_hours ?? 0); ?> hrs</strong>
+                            <span>Total planned hours</span>
+                        </div>
+                        <div>
+                            <strong><?php echo (int)$data['weeklyStudyMinutes']; ?> min</strong>
+                            <span>Focus this week</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dash-card progress-tip-card">
+                    <div class="card-head">
+                        <h3>Insight Panel</h3>
                         <span>📈</span>
                     </div>
-                    <canvas id="progressFocusChart"></canvas>
-                </div>
 
-                <div class="dash-card chart-card modern-chart-card">
+                    <div class="insight-list">
+                        <div class="insight-item">
+                            <strong><?php echo (int)$data['completionRate']; ?>%</strong>
+                            <p>of all tasks are completed</p>
+                        </div>
+                        <div class="insight-item">
+                            <strong><?php echo count($data['subjectProgress']); ?></strong>
+                            <p>subjects are being tracked</p>
+                        </div>
+                        <div class="insight-item">
+                            <strong><?php echo count($data['recentSessions']); ?></strong>
+                            <p>recent focus sessions logged</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-chart-grid">
+                <div class="dash-card chart-card">
                     <div class="card-head">
-                        <h3>Completed Tasks by Subject</h3>
+                        <h3>Subject Task Comparison</h3>
                         <span>📊</span>
                     </div>
                     <canvas id="progressSubjectChart"></canvas>
                 </div>
             </div>
 
-            <div class="dashboard-grid modern-progress-grid">
-                <div class="dash-card progress-card modern-progress-card">
-                    <div class="card-head">
-                        <h3>Task Completion Rate</h3>
-                        <span><?php echo (int) ($data['completionRate'] ?? 0); ?>%</span>
-                    </div>
-
-                    <p class="muted-text">A simple view of how much of your workload you are finishing.</p>
-
-                    <div class="dashboard-progress">
-                        <div class="dashboard-progress-fill" style="width: <?php echo (int) ($data['completionRate'] ?? 0); ?>%;"></div>
-                    </div>
-
-                    <div class="progress-meta">
-                        <div>
-                            <strong><?php echo (int) ($data['completedTasks'] ?? 0); ?></strong>
-                            <span>Completed</span>
-                        </div>
-                        <div>
-                            <strong><?php echo (int) ($data['pendingTasks'] ?? 0); ?></strong>
-                            <span>Pending</span>
-                        </div>
-                    </div>
+            <div class="page-panel">
+                <div class="card-head">
+                    <h3>Subject-wise Progress</h3>
+                    <span>📚</span>
                 </div>
 
-                <div class="dash-card modern-donut-card">
-                    <div class="card-head">
-                        <h3>Completion Split</h3>
-                        <span>🍩</span>
+                <?php if (!empty($data['subjectProgress'])) : ?>
+                    <div class="subject-progress-list">
+                        <?php foreach ($data['subjectProgress'] as $subject) : ?>
+                            <?php
+                                $total = (int)$subject->total_tasks;
+                                $completed = (int)$subject->completed_tasks;
+                                $percent = $total > 0 ? round(($completed / $total) * 100) : 0;
+                            ?>
+                            <div class="subject-progress-card">
+                                <div class="subject-progress-top">
+                                    <div class="subject-progress-title">
+                                        <span class="subject-dot" style="background: <?php echo htmlspecialchars($subject->color); ?>;"></span>
+                                        <div>
+                                            <h4><?php echo htmlspecialchars($subject->subject_name); ?></h4>
+                                            <p><?php echo $completed; ?> of <?php echo $total; ?> tasks completed</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="subject-progress-percent">
+                                        <?php echo $percent; ?>%
+                                    </div>
+                                </div>
+
+                                <div class="dashboard-progress">
+                                    <div class="dashboard-progress-fill" style="width: <?php echo $percent; ?>%;"></div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
-                    <canvas id="progressDonutChart"></canvas>
-                </div>
+                <?php else : ?>
+                    <div class="premium-empty-state">
+                        <div class="empty-illustration">📚</div>
+                        <h4>No subject analytics yet</h4>
+                        <p>Add subjects and tasks to unlock progress tracking insights.</p>
+                        <a href="<?php echo URLROOT; ?>/subjects/add" class="btn btn-primary">Add Subject</a>
+                    </div>
+                <?php endif; ?>
             </div>
 
-            <div class="page-panel modern-page-panel">
-                <div class="panel-top">
-                    <div>
-                        <span class="section-label">Momentum</span>
-                        <h3>Consistency summary</h3>
-                        <p>Streaks and study minutes help you see whether your system is improving over time.</p>
-                    </div>
+            <div class="page-panel" style="margin-top: 20px;">
+                <div class="card-head">
+                    <h3>Recent Focus Sessions</h3>
+                    <span>⏱</span>
                 </div>
 
-                <div class="progress-summary-grid">
-                    <div class="progress-summary-card">
-                        <strong><?php echo (int) ($data['todayMinutes'] ?? 0); ?> min</strong>
-                        <span>Focused today</span>
+                <?php if (!empty($data['recentSessions'])) : ?>
+                    <div class="progress-session-list">
+                        <?php foreach ($data['recentSessions'] as $session) : ?>
+                            <div class="progress-session-item">
+                                <div>
+                                    <h4><?php echo htmlspecialchars($session->session_type); ?> • <?php echo (int)$session->duration_minutes; ?> min</h4>
+                                    <p><?php echo !empty($session->title) ? htmlspecialchars($session->title) : 'No linked task'; ?></p>
+                                </div>
+                                <small><?php echo htmlspecialchars($session->session_date); ?></small>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
-
-                    <div class="progress-summary-card">
-                        <strong><?php echo (int) ($data['todaySessions'] ?? 0); ?></strong>
-                        <span>Sessions today</span>
+                <?php else : ?>
+                    <div class="premium-empty-state">
+                        <div class="empty-illustration">⏱</div>
+                        <h4>No focus sessions yet</h4>
+                        <p>Use Focus Mode to start building a deep work history.</p>
+                        <a href="<?php echo URLROOT; ?>/focus" class="btn btn-primary">Open Focus Mode</a>
                     </div>
-
-                    <div class="progress-summary-card">
-                        <strong><?php echo (int) ($data['studyStreak']->current_streak ?? 0); ?></strong>
-                        <span>Current streak</span>
-                    </div>
-
-                    <div class="progress-summary-card">
-                        <strong><?php echo (int) ($data['studyStreak']->longest_streak ?? 0); ?></strong>
-                        <span>Best streak</span>
-                    </div>
-                </div>
+                <?php endif; ?>
             </div>
         </main>
     </div>
 </section>
 
 <script>
-const progressWeekLabels = <?php echo json_encode($weekLabels); ?>;
-const progressWeekMinutes = <?php echo json_encode($weekMinutes); ?>;
 const progressSubjectLabels = <?php echo json_encode($subjectLabels); ?>;
-const progressSubjectData = <?php echo json_encode($subjectCompleted); ?>;
-const progressCompleted = <?php echo (int) ($data['completedTasks'] ?? 0); ?>;
-const progressPending = <?php echo (int) ($data['pendingTasks'] ?? 0); ?>;
+const progressSubjectTotals = <?php echo json_encode($subjectTotals); ?>;
+const progressSubjectCompleted = <?php echo json_encode($subjectCompleted); ?>;
 
 document.addEventListener('DOMContentLoaded', function () {
-    const focusChart = document.getElementById('progressFocusChart');
-    if (focusChart) {
-        new Chart(focusChart, {
-            type: 'line',
-            data: {
-                labels: progressWeekLabels,
-                datasets: [{
-                    label: 'Focus Minutes',
-                    data: progressWeekMinutes,
-                    borderWidth: 3,
-                    tension: 0.35,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                }
-            }
-        });
-    }
-
-    const subjectChart = document.getElementById('progressSubjectChart');
-    if (subjectChart) {
-        new Chart(subjectChart, {
+    const ctx = document.getElementById('progressSubjectChart');
+    if (ctx) {
+        new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: progressSubjectLabels,
-                datasets: [{
-                    label: 'Completed Tasks',
-                    data: progressSubjectData,
-                    borderWidth: 1,
-                    borderRadius: 10
-                }]
+                datasets: [
+                    {
+                        label: 'Total Tasks',
+                        data: progressSubjectTotals,
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Completed Tasks',
+                        data: progressSubjectCompleted,
+                        borderWidth: 1
+                    }
+                ]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                }
-            }
-        });
-    }
-
-    const donutChart = document.getElementById('progressDonutChart');
-    if (donutChart) {
-        new Chart(donutChart, {
-            type: 'doughnut',
-            data: {
-                labels: ['Completed', 'Pending'],
-                datasets: [{
-                    data: [progressCompleted, progressPending],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom' }
-                },
-                cutout: '68%'
+                responsive: true
             }
         });
     }

@@ -1,15 +1,13 @@
 <?php
-$currentUrl = trim($_GET['url'] ?? '', '/');
-$userName = $_SESSION['user_name'] ?? 'Student';
-$userInitial = strtoupper(substr($userName, 0, 1));
+$currentUrl = $_GET['url'] ?? '';
 ?>
 
 <aside class="dashboard-sidebar">
     <div class="sidebar-brand">
-        <div class="sidebar-logo"><?php echo $userInitial; ?></div>
+        <div class="sidebar-logo">SF</div>
         <div class="sidebar-brand-text">
             <h3>StudyFlow AI</h3>
-            <p><?php echo htmlspecialchars($userName); ?></p>
+            <p>Student productivity suite</p>
         </div>
     </div>
 
@@ -31,7 +29,7 @@ $userInitial = strtoupper(substr($userName, 0, 1));
 
         <a href="<?php echo URLROOT; ?>/planner" class="sidebar-link <?php echo (strpos($currentUrl, 'planner') === 0) ? 'active' : ''; ?>">
             <span class="sidebar-icon">🧠</span>
-            <span>Planner</span>
+            <span>Smart Planner</span>
         </a>
 
         <a href="<?php echo URLROOT; ?>/focus" class="sidebar-link <?php echo (strpos($currentUrl, 'focus') === 0) ? 'active' : ''; ?>">

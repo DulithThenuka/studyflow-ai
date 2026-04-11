@@ -2,7 +2,7 @@
     <div class="container footer-content">
         <div>
             <h3>StudyFlow AI</h3>
-            <p>Plan smarter. Study better. Stay consistent.</p>
+            <p>Plan smarter. Study better.</p>
         </div>
 
         <div class="footer-links">
@@ -14,7 +14,7 @@
     </div>
 
     <div class="footer-bottom">
-        <p>&copy; <?php echo date('Y'); ?> StudyFlow AI. Built for focused students.</p>
+        <p>&copy; <?php echo date('Y'); ?> StudyFlow AI. All rights reserved.</p>
     </div>
 </footer>
 </body>

@@ -3,16 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <?php echo !empty($data['title']) ? htmlspecialchars($data['title']) . ' | ' . SITENAME : SITENAME; ?>
-    </title>
+    <title><?php echo SITENAME; ?></title>
 
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/style.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/auth.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/dashboard.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/focus.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/planner.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/admin.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,4 +14,4 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script defer src="<?php echo URLROOT; ?>/js/main.js"></script>
 </head>
-<body data-urlroot="<?php echo URLROOT; ?>">
+<body>

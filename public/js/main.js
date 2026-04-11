@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const urlRoot = document.body.dataset.urlroot || '';
-
     const reveals = document.querySelectorAll('.reveal');
 
     const revealOnScroll = () => {
@@ -23,37 +21,31 @@ document.addEventListener('DOMContentLoaded', function () {
     if (menuToggle && navLinks) {
         menuToggle.addEventListener('click', function () {
             navLinks.classList.toggle('show');
-            const expanded = navLinks.classList.contains('show');
-            menuToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
         });
     }
 
     const dashboardSearch = document.getElementById('dashboardSearch');
-
     if (dashboardSearch) {
         dashboardSearch.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
                 const value = dashboardSearch.value.toLowerCase().trim();
 
                 if (value.includes('task')) {
-                    window.location.href = urlRoot + '/tasks';
+                    window.location.href = window.location.origin + '/studyflow-ai/tasks';
                 } else if (value.includes('subject')) {
-                    window.location.href = urlRoot + '/subjects';
+                    window.location.href = window.location.origin + '/studyflow-ai/subjects';
                 } else if (value.includes('planner')) {
-                    window.location.href = urlRoot + '/planner';
+                    window.location.href = window.location.origin + '/studyflow-ai/planner';
                 } else if (value.includes('focus')) {
-                    window.location.href = urlRoot + '/focus';
+                    window.location.href = window.location.origin + '/studyflow-ai/focus';
                 } else if (value.includes('progress')) {
-                    window.location.href = urlRoot + '/progress';
-                } else if (value.includes('profile')) {
-                    window.location.href = urlRoot + '/profile';
-                } else if (value.includes('dashboard') || value.includes('home')) {
-                    window.location.href = urlRoot + '/dashboard';
+                    window.location.href = window.location.origin + '/studyflow-ai/progress';
                 }
             }
         });
     }
-
+});
+document.addEventListener('DOMContentLoaded', function () {
     const forms = document.querySelectorAll('form');
 
     forms.forEach((form) => {
