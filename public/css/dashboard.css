@@ -1,0 +1,331 @@
+.dashboard-page-modern {
+    padding: 28px 0 32px;
+}
+
+.modern-dashboard-main {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.dashboard-hero {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 28px;
+    border-radius: 28px;
+    border: 1px solid var(--line);
+    background:
+        radial-gradient(circle at top right, rgba(91, 140, 255, 0.18), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+    box-shadow: var(--shadow-lg);
+}
+
+.dashboard-hero-copy h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.08;
+    margin-bottom: 12px;
+}
+
+.dashboard-hero-copy p {
+    color: var(--muted-2);
+    max-width: 720px;
+    line-height: 1.75;
+}
+
+.dashboard-hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.modern-command-bar {
+    padding: 0;
+    background: transparent;
+    border: 0;
+}
+
+.modern-command-search {
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.045);
+    box-shadow: var(--shadow-md);
+}
+
+.modern-command-search input {
+    min-height: 58px;
+}
+
+.today-insight-banner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 22px;
+    border-radius: 22px;
+    border: 1px solid var(--line);
+    background: linear-gradient(135deg, rgba(91, 140, 255, 0.14), rgba(124, 58, 237, 0.10));
+    box-shadow: var(--shadow-md);
+}
+
+.today-insight-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,0.10);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.today-insight-banner h3 {
+    margin-bottom: 6px;
+}
+
+.today-insight-banner p {
+    color: var(--muted-2);
+    line-height: 1.7;
+}
+
+.modern-stats-grid {
+    gap: 18px;
+}
+
+.modern-stat-box {
+    border-radius: 24px;
+    padding: 24px;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.modern-stat-box:hover,
+.modern-alert-card:hover,
+.modern-chart-card:hover,
+.modern-list-card:hover,
+.modern-progress-card:hover,
+.modern-donut-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.16);
+}
+
+.modern-stat-box h2 {
+    font-size: 2.2rem;
+    margin: 12px 0 8px;
+}
+
+.success-card {
+    background:
+        linear-gradient(180deg, rgba(34, 197, 94, 0.10), rgba(255,255,255,0.03));
+}
+
+.focus-card {
+    background:
+        linear-gradient(180deg, rgba(34, 211, 238, 0.10), rgba(255,255,255,0.03));
+}
+
+.dashboard-priority-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.modern-alert-card {
+    padding: 22px;
+    border-radius: 24px;
+    min-height: 180px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.03));
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-md);
+    transition: transform .2s ease, border-color .2s ease;
+}
+
+.modern-alert-card h4 {
+    font-size: 1.18rem;
+    margin: 14px 0 10px;
+    line-height: 1.4;
+}
+
+.modern-alert-card p,
+.modern-alert-card small {
+    color: var(--muted-2);
+    line-height: 1.7;
+}
+
+.snapshot-list {
+    margin: 14px 0 0;
+    padding-left: 18px;
+    color: var(--muted-2);
+    line-height: 1.9;
+}
+
+.snapshot-list strong {
+    color: #ffffff;
+}
+
+.modern-warning-box {
+    border-radius: 20px;
+    border: 1px solid rgba(245, 158, 11, 0.26);
+    background: rgba(245, 158, 11, 0.12);
+    color: #fde68a;
+    padding: 16px 18px;
+}
+
+.modern-progress-grid {
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 18px;
+}
+
+.modern-progress-card,
+.modern-donut-card,
+.modern-reminder-box,
+.modern-chart-card,
+.modern-list-card {
+    border-radius: 24px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-md);
+    transition: transform .2s ease, border-color .2s ease;
+}
+
+.modern-donut-card {
+    padding: 22px;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modern-donut-card canvas {
+    flex: 1;
+    min-height: 240px !important;
+}
+
+.modern-reminder-box {
+    padding: 22px;
+}
+
+.modern-chart-grid {
+    gap: 18px;
+}
+
+.modern-chart-card {
+    padding: 22px;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modern-chart-card canvas {
+    flex: 1;
+    min-height: 280px !important;
+}
+
+.modern-lists-grid {
+    gap: 18px;
+}
+
+.modern-list-card {
+    padding: 22px;
+}
+
+.modern-task-row {
+    border-radius: 18px;
+    padding: 16px 18px;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.03);
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.modern-task-row:hover {
+    border-color: rgba(91, 140, 255, 0.30);
+    background: rgba(255,255,255,0.05);
+    transform: translateY(-2px);
+}
+
+.modern-task-row h4 {
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+.modern-task-row p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.deadline-pill {
+    white-space: nowrap;
+}
+
+.status-pill.pending {
+    background: rgba(245, 158, 11, 0.14);
+    color: #fde68a;
+    border: 1px solid rgba(245, 158, 11, 0.24);
+}
+
+.status-pill.completed {
+    background: rgba(34, 197, 94, 0.14);
+    color: #dcfce7;
+    border: 1px solid rgba(34, 197, 94, 0.24);
+}
+
+.status-pill.in-progress {
+    background: rgba(91, 140, 255, 0.14);
+    color: #dbeafe;
+    border: 1px solid rgba(91, 140, 255, 0.24);
+}
+
+@media (max-width: 1180px) {
+    .dashboard-priority-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modern-progress-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 860px) {
+    .dashboard-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 22px;
+    }
+
+    .dashboard-hero-actions {
+        width: 100%;
+    }
+
+    .dashboard-hero-actions .btn {
+        flex: 1;
+    }
+
+    .today-insight-banner {
+        align-items: flex-start;
+    }
+
+    .modern-chart-card {
+        min-height: 320px;
+    }
+}
+
+@media (max-width: 640px) {
+    .modern-stat-box,
+    .modern-alert-card,
+    .modern-reminder-box,
+    .modern-chart-card,
+    .modern-list-card,
+    .modern-donut-card {
+        padding: 18px;
+        border-radius: 20px;
+    }
+
+    .dashboard-hero-copy h1 {
+        font-size: 1.8rem;
+    }
+
+    .today-insight-banner {
+        padding: 16px;
+    }
+
+    .modern-task-row {
+        padding: 14px;
+    }
+}
